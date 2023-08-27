@@ -16,7 +16,7 @@
 
   <body>
     <div class="content">
-      <h1>Anotar Pesos de Ingredientes</h1>
+      <h1>Controle caldos</h1>
       <div class="tabs">
         <div class="tab active" data-tab="1">Costela</div>
         <div class="tab" data-tab="2">Carne Assada</div>
@@ -31,47 +31,58 @@
       </div>
       <div class="tab-contents">
         <div class="tab-content active" data-tab="1">
-          <ul id="ingredientes-lista">
+          <ul id="ingredientes-lista" class="costela">
             <li>
-              <span>Costela bruta:</span>
+              <span>Costela bruta:.</span>
               <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Costela">
               kg
             </li>
             <li>
-              <span>Pelanca:</span>
-              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="feijao">
+              <span>Pelanca:.........</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Pelanca">
               kg
             </li>
             <li>
               <span>Costela limpa:</span>
-              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="feijao">
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Costela limpa">
               kg
             </li>
             <li>
-              <span>Agrião:</span>
-              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="feijao">
+              <span>Agrião:............</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Agrião">
               kg
             </li>
             <li>
-              <span>Batata:</span>
-              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="feijao">
+              <span>Batata:............</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Batata">
               kg
             </li>
             <li>
-              <span>Cebola:</span>
-              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="feijao">
+              <span>Cebola:...........</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Cebola">
               kg
             </li>
             <li>
-              <span>Pimentão:</span>
-              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="feijao">
+              <span>Pimentão:.......</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Pimentão">
               kg
-          </li>
-          <li>
-            <span>Alho:</span>
-            <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="feijao">
-            kg
-        </li>
+            </li>
+            <li>
+              <span>Alho: ..............</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Alho">
+              kg
+            </li>
+            <li>
+              <span>Pó carne: .......</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Pó carne">
+              kg
+            </li>
+            <li>
+              <span>Colorau: .........</span>
+              <input type="number" step="0.01" min="0" value="0" class="peso" data-ingrediente="Colorau">
+              kg
+            </li>
+
           </ul>
         </div>
         <div class="tab-content" data-tab="2">
@@ -98,10 +109,12 @@
       </div>
     </div>
 
-    <button id="calcular-total">Calcular Total</button>
-    <button id="limpar-inputs">Limpar Inputs</button>
-    <p id="total-peso">Total Peso: 0.00 kg</p>
-    <button id="compartilhar">Compartilhar</button>
+    <div class="btn">
+      <button id="calcular-total">Calcular Total</button>
+      <button id="limpar-inputs">Limpar Inputs</button>
+      <p id="total-peso">Total Peso: 0.00 kg</p>
+      <button id="compartilhar">Compartilhar</button>
+    </div>
 
     <script src="script.js"></script>
   </body>
