@@ -1,14 +1,14 @@
-
 body {
   margin: 0;
-  padding:0;
+  padding: 0;
   font-family: Arial, sans-serif;
-  background-color: rgb(70, 70, 70);
+  background-color: rgb(17, 16, 16);
   align-items: center;
 }
 
 .content {
   padding: 10px;
+  margin-left: 15px;
 }
 
 .tabs {
@@ -16,7 +16,6 @@ body {
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
-  border-bottom: 1px solid #00f847;
   margin-right: 19px;
 }
 
@@ -25,8 +24,13 @@ body {
   padding: 5px 10px;
   cursor: pointer;
   text-align: center;
-  background-color: #e0be6f;
-  transition: background-color 0.3s;
+  background: rgb(238, 174, 202);
+  background: linear-gradient(
+    156deg,
+    rgb(204, 219, 224) 0%,
+    rgb(250, 109, 2) 100%
+  );
+  transition: background-color 0.5s;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   margin-right: 1px;
@@ -37,13 +41,14 @@ body {
 }
 
 .tab:hover {
-  background-color: #e0e0e0;
+  background-color: #f3f1f1;
+  margin: 2px;
 }
 
 .tab.active {
-  background-color: rgb(178, 176, 176);
-  border: 2px solid #000;
   border-bottom-color: rgb(255, 2, 2);
+  background-color: rgb(178, 176, 176);
+  border: 2px solid #1dfa00;
 }
 
 .tab-contents {
@@ -74,9 +79,21 @@ input {
 
 h1 {
   color: #ccc;
+  text-align: center;
 }
 
 .btn {
   margin-left: 35px;
   margin-top: 15px;
+}
+
+#total-peso {
+  color: #ccc;
+}
+.btn button {
+  padding: 10px;
+  border-radius: 15px;
+  border: 2px solid #fc6501;
+  background-color: #7eeb70;
+  font-weight: bolder;
 }
