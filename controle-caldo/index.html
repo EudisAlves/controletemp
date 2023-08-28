@@ -12,19 +12,19 @@
 <body>
   <div class="content">
     <h1>Controle caldos</h1>
-    <div class="tabs">
-      <div class="tab active" data-tab="1">Costela</div>
-      <div class="tab" data-tab="2">Carne Assada</div>
-      <div class="tab" data-tab="3">Sobre coxa</div>
-      <div class="tab" data-tab="4">Strogonoff</div>
-      <div class="tab" data-tab="5">Ervilha</div>
-      <div class="tab" data-tab="6">Caldo Verde</div>
-      <div class="tab" data-tab="7">Dobradinha</div>
-      <div class="tab" data-tab="8">Mocotó</div>
-      <div class="tab" data-tab="9">Caldo Abóbora</div>
-      <div class="tab" data-tab="10">Feijoada</div>
-      <div class="tab" data-tab="11">Farofa</div>
-    </div>
+    <nav class="tabs">
+      <section class="tab active" data-tab="1">Costela</section>
+      <section class="tab" data-tab="2">Carne Assada</section>
+      <section class="tab" data-tab="3">Sobre coxa</section>
+      <section class="tab" data-tab="4">Strogonoff</section>
+      <section class="tab" data-tab="5">Ervilha</section>
+      <section class="tab" data-tab="6">Caldo Verde</section>
+      <section class="tab" data-tab="7">Dobradinha</section>
+      <section class="tab" data-tab="8">Mocotó</section>
+      <section class="tab" data-tab="9">Caldo Abóbora</section>
+      <section class="tab" data-tab="10">Feijoada</section>
+      <section class="tab" data-tab="11">Farofa</section>
+    </nav>
     <div class="tab-contents  active">
       <div class="tab-content" data-tab="1">
         <ul id="ingredientes-lista" class="costela">
@@ -602,7 +602,7 @@
     <button id="calcular-total">Calcular Total</button>
     <button id="limpar-inputs">Limpar Inputs</button>
     <p id="total-peso">Total Peso: 0.00 kg</p>
-    <button type="button" onclick="compartilhar()" id="compartilhar">Compartilhar</button>
+    <button class="share-button">Compartilhar</button>
   </div>
 
   <script src="main.js"></script>

@@ -1,54 +1,91 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const tabs = document.querySelectorAll(".tab");
     const tabContents = document.querySelectorAll(".tab-content");
+    const totalPesoElement = document.getElementById("total-peso");
+    const pesosInputs = document.querySelectorAll(".peso");
+    const shareButton = document.querySelector(".share-button");
+    const sections = document.querySelectorAll(".tab-content");
 
-    tabs.forEach(tab => {
-        tab.addEventListener("click", function() {
-            const tabNumber = this.getAttribute("data-tab");
-            
-            tabs.forEach(t => {
-                t.classList.remove("active");
-            });
-            tab.classList.add("active");
-
-            tabContents.forEach(content => {
-                content.classList.remove("active");
-            });
-
-            document.querySelector(`.tab-content[data-tab="${tabNumber}"]`).classList.add("active");
-        });
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => showTab(index));
     });
 
-    document.getElementById("compartilhar").addEventListener("click", function() {
-        const contentToShare = buildShareContent();
-        shareContent(contentToShare);
-    });
+    function showTab(tabIndex) {
+        tabs.forEach(tab => tab.classList.remove("active"));
+        tabContents.forEach(content => content.classList.remove("active"));
 
-    function buildShareContent() {
-        let content = "Resultados dos pesos dos ingredientes:\n\n";
-
-        tabContents.forEach((content, index) => {
-            const tabNumber = index + 1;
-            const tabName = `Tab ${tabNumber}`;
-            const ingredientsList = content.querySelectorAll(".peso");
-            
-            content += `${tabName}:\n`;
-
-            ingredientsList.forEach(ingredient => {
-                const ingredientName = ingredient.getAttribute("data-ingrediente");
-                const ingredientWeight = ingredient.value;
-                content += `${ingredientName}: ${ingredientWeight} kg\n`;
-            });
-
-            content += "\n";
-        });
-
-        return content;
+        tabs[tabIndex].classList.add("active");
+        tabContents[tabIndex].classList.add("active");
     }
 
-    function shareContent(content) {
-        const encodedContent = encodeURIComponent(content);
-        const shareUrl = `mailto:?subject=Compartilhar Resultados&body=${encodedContent}`;
-        window.location.href = shareUrl;
+    pesosInputs.forEach(input => {
+        const ingrediente = input.getAttribute("data-ingrediente");
+        const peso = localStorage.getItem(ingrediente);
+
+        if (peso !== null) {
+            input.value = peso;
+        }
+
+        input.addEventListener("change", function () {
+            const peso = this.value;
+            localStorage.setItem(ingrediente, peso);
+            updateTotalPeso();
+        });
+    });
+
+    function updateTotalPeso() {
+        let totalPeso = 0;
+
+        pesosInputs.forEach(input => {
+            const peso = parseFloat(input.value);
+            totalPeso += peso;
+        });
+
+        totalPesoElement.textContent = `Total Peso: ${totalPeso.toFixed(2)} kg`;
+    }
+
+    document.getElementById("calcular-total").addEventListener("click", updateTotalPeso);
+
+    document.getElementById("limpar-inputs").addEventListener("click", function () {
+        pesosInputs.forEach(input => {
+            const ingrediente = input.getAttribute("data-ingrediente");
+            localStorage.removeItem(ingrediente);
+            input.value = 0;
+        });
+
+        updateTotalPeso();
+    });
+
+    shareButton.addEventListener("click", function () {
+        let listText = "";
+
+        sections.forEach(section => {
+            const sectionId = section.getAttribute("id");
+            listText += generateListText(section) + "\n\n";
+        });
+
+        if (navigator.share) {
+            navigator.share({
+                title: "Lista de Itens",
+                text: listText,
+            })
+            .then(() => console.log("Conteúdo compartilhado"))
+            .catch(error => console.error("Erro ao compartilhar:", error));
+        } else {
+            console.log("API de compartilhamento não suportada");
+        }
+    });
+
+    function generateListText(section) {
+        const items = section.querySelectorAll(".item");
+        let sectionText = `Itens da seção ${section.id}:\n`;
+
+        items.forEach(item => {
+            const itemName = item.querySelector(".item-name").textContent;
+            const itemPeso = item.querySelector(".peso").value;
+            sectionText += `- ${itemName}: ${itemPeso} kg\n`;
+        });
+
+        return sectionText;
     }
 });
