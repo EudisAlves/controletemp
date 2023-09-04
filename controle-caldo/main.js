@@ -1,22 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Elementos
     const tabs = document.querySelectorAll(".tab");
     const tabContents = document.querySelectorAll(".tab-content");
     const totalPesoElement = document.getElementById("total-peso");
     const pesosInputs = document.querySelectorAll(".peso");
     const shareButton = document.querySelector(".share-button");
-    const sections = document.querySelectorAll(".tab-content");
 
+    // Event Listeners
     tabs.forEach((tab, index) => {
         tab.addEventListener("click", () => showTab(index));
     });
-
-    function showTab(tabIndex) {
-        tabs.forEach(tab => tab.classList.remove("active"));
-        tabContents.forEach(content => content.classList.remove("active"));
-
-        tabs[tabIndex].classList.add("active");
-        tabContents[tabIndex].classList.add("active");
-    }
 
     pesosInputs.forEach(input => {
         const ingrediente = input.getAttribute("data-ingrediente");
@@ -33,6 +26,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    document.getElementById("calcular-total").addEventListener("click", updateTotalPeso);
+
+    document.getElementById("limpar-inputs").addEventListener("click", limparInputs);
+
+    shareButton.addEventListener("click", compartilharLista);
+
+    // Funções
+    function showTab(tabIndex) {
+        tabs.forEach(tab => tab.classList.remove("active"));
+        tabContents.forEach(content => content.classList.remove("active"));
+
+        tabs[tabIndex].classList.add("active");
+        tabContents[tabIndex].classList.add("active");
+    }
+
     function updateTotalPeso() {
         let totalPeso = 0;
 
@@ -44,9 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         totalPesoElement.textContent = `Total Peso: ${totalPeso.toFixed(2)} kg`;
     }
 
-    document.getElementById("calcular-total").addEventListener("click", updateTotalPeso);
-
-    document.getElementById("limpar-inputs").addEventListener("click", function () {
+    function limparInputs() {
         pesosInputs.forEach(input => {
             const ingrediente = input.getAttribute("data-ingrediente");
             localStorage.removeItem(ingrediente);
@@ -54,38 +60,36 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         updateTotalPeso();
-    });
+    }
 
-    shareButton.addEventListener("click", function () {
+    function compartilharLista() {
+        const sections = document.querySelectorAll(".tab-content");
         let listText = "";
 
         sections.forEach(section => {
             const sectionId = section.getAttribute("id");
-            listText += generateListText(section) + "\n\n";
+            listText += `Seção ID: ${sectionId}\n`;
+
+            const items = section.querySelectorAll("li");
+            items.forEach(item => {
+                const ingredienteId = item.querySelector("span").getAttribute("id");
+                const itemPeso = item.querySelector(".peso").value;
+                listText += `- Ingrediente ID: ${ingredienteId}, Peso: ${itemPeso} kg\n`;
+            });
+
+            listText += "\n";
         });
 
         if (navigator.share) {
             navigator.share({
                 title: "Lista de Itens",
                 text: listText,
+                url: window.location.href // Adiciona a URL da página
             })
             .then(() => console.log("Conteúdo compartilhado"))
             .catch(error => console.error("Erro ao compartilhar:", error));
         } else {
             console.log("API de compartilhamento não suportada");
         }
-    });
-
-    function generateListText(section) {
-        const items = section.querySelectorAll(".item");
-        let sectionText = `Itens da seção ${section.id}:\n`;
-
-        items.forEach(item => {
-            const itemName = item.querySelector(".item-name").textContent;
-            const itemPeso = item.querySelector(".peso").value;
-            sectionText += `- ${itemName}: ${itemPeso} kg\n`;
-        });
-
-        return sectionText;
     }
 });
