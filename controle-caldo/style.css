@@ -87,6 +87,18 @@ h1 {
   margin-top: 15px;
 }
 
+#calcular-total {
+  cursor: pointer;
+}
+
+#limpar-inputs {
+  cursor: pointer;
+}
+
+.share-button {
+  cursor: pointer;
+}
+
 #total-peso {
   color: #ccc;
 }
