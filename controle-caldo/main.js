@@ -27,18 +27,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("calcular-total").addEventListener("click", updateTotalPeso);
-
     document.getElementById("limpar-inputs").addEventListener("click", limparInputs);
-
-    shareButton.addEventListener("click", compartilhar);
+    shareButton.addEventListener("click", compartilharLista);
 
     // Funções
     function showTab(tabIndex) {
+        const activeTab = tabs[tabIndex];
+        const activeTabContent = tabContents[tabIndex];
+
         tabs.forEach(tab => tab.classList.remove("active"));
         tabContents.forEach(content => content.classList.remove("active"));
 
-        tabs[tabIndex].classList.add("active");
-        tabContents[tabIndex].classList.add("active");
+        activeTab.classList.add("active");
+        activeTabContent.classList.add("active");
+
+        updateTotalPeso();
     }
 
     function updateTotalPeso() {
@@ -46,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         pesosInputs.forEach(input => {
             const peso = parseFloat(input.value);
-            totalPeso += peso;
+            totalPeso += isNaN(peso) ? 0 : peso;
         });
 
         totalPesoElement.textContent = `Total Peso: ${totalPeso.toFixed(2)} kg`;
@@ -62,41 +65,36 @@ document.addEventListener("DOMContentLoaded", function () {
         updateTotalPeso();
     }
 
-    shareButton.addEventListener("onclick", compartilhar);
+    function compartilharLista() {
+        const activeTabContent = document.querySelector('.tab-content.active');
 
+        if (!activeTabContent) {
+            console.error('Nenhuma tab ativa encontrada.');
+            return;
+        }
 
-    // Função para compartilhar os detalhes da lista de ingredientes
-    function compartilhar() {
-        // Obtém a lista de ingredientes ativa
-        const activeTabContent = document.querySelector('.tab-contents.active .tab-content.active');
-        if (!activeTabContent) return;
-
-        // Obtém o título da lista (classe da UL)
         const listaTitulo = activeTabContent.querySelector('ul').classList[0];
-
-        // Obtém todos os itens da lista de ingredientes
         const ingredientes = activeTabContent.querySelectorAll('li');
 
-        // Cria um array para armazenar os detalhes dos ingredientes
         const detalhesIngredientes = [];
 
         ingredientes.forEach((item) => {
-            const ingrediente = item.querySelector('input').getAttribute('data-ingrediente');
-            const peso = item.querySelector('input').value;
-            detalhesIngredientes.push(`${ingrediente}: ${peso}`);
+            const nomeIngrediente = item.querySelector('span').textContent;
+            const valorPeso = item.querySelector('.peso').value;
+            detalhesIngredientes.push(`${nomeIngrediente}: ${valorPeso} kg`);
         });
 
-        // Cria o texto a ser compartilhado
         const textoCompartilhado = `${listaTitulo}\n${detalhesIngredientes.join('\n')}`;
 
-        // Exibe o texto compartilhado em um alerta (substitua isso pela lógica real de compartilhamento)
-        alert('Detalhes da Lista de Ingredientes:\n\n' + textoCompartilhado);
+        if (navigator.share) {
+            navigator.share({
+                title: listaTitulo,
+                text: textoCompartilhado,
+            })
+                .then(() => console.log('Conteúdo compartilhado com sucesso.'))
+                .catch(error => console.error('Erro ao compartilhar:', error));
+        } else {
+            console.log('API de compartilhamento não suportada.');
+        }
     }
-
-    // Associe a função de compartilhamento ao botão "Compartilhar"
-    const botaoCompartilhar = document.querySelector('.share-button');
-    botaoCompartilhar.addEventListener('click', compartilhar);
-
-
-
 });
